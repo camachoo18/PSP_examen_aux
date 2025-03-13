@@ -23,7 +23,6 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/log/* logs_backup/
 
-
       - name: Commit and push logs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,4 +30,4 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add logs_backup/ || echo "No hay cambios en logs_backup"
-          git diff --cached --quiet || (git commit -m "Backup de logs del VPS" && git push origin main)
+          git diff --cached --quiet || (git commit -m "Backup de logs del VPS" && git push origin master)
