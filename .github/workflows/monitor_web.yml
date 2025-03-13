@@ -34,7 +34,7 @@ jobs:
     - name: Commit and push the log file
       run: |
         git add status_codes.log
-        git commit -m "Actualizo status code log $(date '+%Y-%m-%d %H:%M:%S')"
+        git commit -m "Actualizando status code log $(date '+%Y-%m-%d %H:%M:%S')"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
