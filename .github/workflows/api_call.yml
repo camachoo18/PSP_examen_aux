@@ -19,6 +19,12 @@ jobs:
           mkdir -p api_responses
           curl -s "https://api.thecatapi.com/v1/images/search" -o api_responses/cat_image_$TIMESTAMP.json
 
+      - name: Extract status code
+        id: extract_status
+        run: |
+          STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" https://api.thecatapi.com/v1/images/search)
+          echo "STATUS_CODE=$STATUS_CODE" >> $GITHUB_ENV
+
       - name: Commit and push API response
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,5 +39,5 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          MESSAGE="GitHub Action ejecutada: API Call\nFecha y hora: $TIMESTAMP\nRepositorio: ${{ github.repository }}\nCommit: ${{ github.sha }}\nResultado: ${{ steps.commit.outputs.result }}"
+          MESSAGE="GitHub Action ejecutada: API Call\nFecha y hora: $TIMESTAMP\nRepositorio: ${{ github.repository }}\nCommit: ${{ github.sha }}\nResultado: ${{ env.STATUS_CODE }}"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text="$MESSAGE"
