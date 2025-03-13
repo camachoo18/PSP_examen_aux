@@ -1,0 +1,29 @@
+name: API Call
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  api_call:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make API request and save response
+        run: |
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          mkdir -p api_responses
+          curl -s "https://api.thecatapi.com/v1/images/search" -o api_responses/cat_image_$TIMESTAMP.json
+
+      - name: Commit and push API response
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add api_responses/ || echo "No hay cambios en api_responses"
+          git diff --cached --quiet || (git commit -m "Nueva llamada a la API - $TIMESTAMP" && git push origin main)
