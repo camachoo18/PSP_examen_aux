@@ -935,3 +935,27 @@ Mar 13 10:24:11 localhost sshd[2600]: Connection closed by invalid user usdt 92.
 Mar 13 10:24:25 localhost sshd[2602]: Accepted password for root from 172.183.174.151 port 28736 ssh2
 Mar 13 10:24:25 localhost sshd[2602]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
 Mar 13 10:24:25 localhost systemd-logind[607]: New session 42 of user root.
+Mar 13 10:24:32 localhost sshd[2662]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=206.189.114.49  user=root
+Mar 13 10:24:34 localhost sshd[2662]: Failed password for root from 206.189.114.49 port 47712 ssh2
+Mar 13 10:24:35 localhost sshd[2662]: Connection closed by authenticating user root 206.189.114.49 port 47712 [preauth]
+Mar 13 10:24:46 localhost sshd[2602]: Received disconnect from 172.183.174.151 port 28736:11: disconnected by user
+Mar 13 10:24:46 localhost sshd[2602]: Disconnected from user root 172.183.174.151 port 28736
+Mar 13 10:24:46 localhost sshd[2602]: pam_unix(sshd:session): session closed for user root
+Mar 13 10:24:46 localhost systemd-logind[607]: Session 42 logged out. Waiting for processes to exit.
+Mar 13 10:24:46 localhost systemd-logind[607]: Removed session 42.
+Mar 13 10:25:01 localhost CRON[2664]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+Mar 13 10:25:01 localhost CRON[2664]: pam_unix(cron:session): session closed for user root
+Mar 13 10:30:06 localhost sshd[2668]: Connection reset by 205.210.31.170 port 62580 [preauth]
+Mar 13 10:30:31 localhost sshd[2674]: Invalid user usdc from 92.118.39.75 port 53236
+Mar 13 10:30:31 localhost sshd[2674]: pam_unix(sshd:auth): check pass; user unknown
+Mar 13 10:30:31 localhost sshd[2674]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=92.118.39.75 
+Mar 13 10:30:32 localhost sshd[2674]: Failed password for invalid user usdc from 92.118.39.75 port 53236 ssh2
+Mar 13 10:30:34 localhost sshd[2674]: Connection closed by invalid user usdc 92.118.39.75 port 53236 [preauth]
+Mar 13 10:31:28 localhost sshd[2676]: Invalid user bacula from 206.189.114.49 port 50406
+Mar 13 10:31:28 localhost sshd[2676]: pam_unix(sshd:auth): check pass; user unknown
+Mar 13 10:31:28 localhost sshd[2676]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=206.189.114.49 
+Mar 13 10:31:30 localhost sshd[2676]: Failed password for invalid user bacula from 206.189.114.49 port 50406 ssh2
+Mar 13 10:31:31 localhost sshd[2676]: Connection closed by invalid user bacula 206.189.114.49 port 50406 [preauth]
+Mar 13 10:32:01 localhost sshd[2678]: Accepted password for root from 20.172.29.26 port 62544 ssh2
+Mar 13 10:32:01 localhost sshd[2678]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+Mar 13 10:32:01 localhost systemd-logind[607]: New session 44 of user root.
