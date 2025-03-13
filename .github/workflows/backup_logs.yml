@@ -3,7 +3,7 @@ name: Backup Logs
 on:
   schedule:
     - cron: '*/5 * * * *'  # Cada 5 minutos
-  workflow_dispatch:
+  
     
 jobs:
   backup:
@@ -12,7 +12,18 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    
+    - name: Create .ssh directory
+      run: mkdir -p ~/.ssh
 
+    - name: Add remote host to known_hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Copy files via SCP
+      env:
+        SSHPASS: ${{ secrets.SSH_PASSWORD }}
+      run: sshpass -e scp -r ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/website
+      
     - name: Copy logs from VPS
       run: |
         sshpass -e ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar -czf /tmp/logs_backup.tar.gz /var/log"
@@ -27,6 +38,6 @@ jobs:
       run: |
         git add logs_backup.tar.gz
         git commit -m "Backup de logs: $(date '+%Y-%m-%d %H:%M:%S')"
-        git push
+        git push origin main || (git pull --rebase && git push origin main)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
