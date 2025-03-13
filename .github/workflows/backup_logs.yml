@@ -3,7 +3,7 @@ name: Backup Logs
 on:
   schedule:
     - cron: '* * * * *'  # Cada minuto
-
+    workflow_dispatch:
 jobs:
   backup:
     runs-on: ubuntu-latest
