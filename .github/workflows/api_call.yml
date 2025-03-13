@@ -3,7 +3,7 @@ name: API Call
 on:
   schedule:
     - cron: '*/5 * * * *'
-  
+  workflow_dispatch:
 
 jobs:
   api_call:
@@ -27,3 +27,11 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add api_responses/ || echo "No hay cambios en api_responses"
           git diff --cached --quiet || (git commit -m "Nueva llamada a la API - $TIMESTAMP" && git push origin master)
+
+      - name: Send Telegram notification
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE="GitHub Action ejecutada: API Call\nFecha y hora: $TIMESTAMP\nRepositorio: ${{ github.repository }}\nCommit: ${{ github.sha }}\nResultado: ${{ steps.commit.outputs.result }}"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text="$MESSAGE"
