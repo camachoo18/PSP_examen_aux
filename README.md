@@ -33,5 +33,5 @@ Ademas cada uno de ellos podemos manejarlo y que se vaya ejecutando automaticame
 Aparte he añadido un bot de telegram que me avisara del estado de la api y su respuesta ante ella.
 
 Pruebas:
-![alt text](image.png)
-![alt text](image-1.png)
+![alt text](images/image.png)
+![alt text](images/image-1.png)
