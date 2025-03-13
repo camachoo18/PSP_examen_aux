@@ -2,8 +2,7 @@ name: Monitorización Web
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Cada minuto
-  
+    - cron: '*/5 * * * *'  # Cada 5 minutos
 
 jobs:
   monitor:
@@ -19,6 +18,7 @@ jobs:
         STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" https://youtube.com)
         DATE=$(date '+%Y-%m-%d %H:%M:%S')
         echo "$DATE - Status Code: $STATUS_CODE" >> status_codes.log
+
     - name: Check if file has changes
       run: |
         if [ -s status_codes.log ]; then
@@ -27,14 +27,16 @@ jobs:
           echo "No changes in file"
           exit 0
         fi
+
     - name: Configure Git
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
     - name: Commit and push the log file
       run: |
         git add status_codes.log
-        git commit -m "Actualizando status code log $(date '+%Y-%m-%d %H:%M:%S')"
+        git commit -m "Actualizo status code log $(date '+%Y-%m-%d %H:%M:%S')"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
