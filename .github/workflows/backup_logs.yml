@@ -1,0 +1,31 @@
+name: Backup Logs
+
+on:
+  schedule:
+    - cron: '* * * * *'  # Cada minuto
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Copy logs from VPS
+      run: |
+        sshpass -e ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar -czf /tmp/logs_backup.tar.gz /var/log"
+        sshpass -e scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/logs_backup.tar.gz ./logs_backup.tar.gz
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Commit and push logs backup to repo
+      run: |
+        git add logs_backup.tar.gz
+        git commit -m "Backup de logs: $(date '+%Y-%m-%d %H:%M:%S')"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
