@@ -2,7 +2,7 @@ name: Monitorización Web
 
 on:
   schedule:
-    - cron: '* * * * *'  # Cada minuto
+    - cron: '*/5 * * * *'  # Cada minuto
   
 
 jobs:
