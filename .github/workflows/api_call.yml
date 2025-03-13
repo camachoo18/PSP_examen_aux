@@ -24,6 +24,7 @@ jobs:
         run: |
           STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" https://api.thecatapi.com/v1/images/search)
           echo "STATUS_CODE=$STATUS_CODE" >> $GITHUB_ENV
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
 
       - name: Commit and push API response
         env:
@@ -39,5 +40,5 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          MESSAGE="GitHub Action ejecutada: API Call\nFecha y hora: $TIMESTAMP\nRepositorio: ${{ github.repository }}\nCommit: ${{ github.sha }}\nResultado: ${{ env.STATUS_CODE }}"
+          MESSAGE="GitHub Action ejecutada: API Call\nFecha y hora: ${{ env.TIMESTAMP }}\nRepositorio: ${{ github.repository }}\nCommit: ${{ github.sha }}\nResultado: ${{ env.STATUS_CODE }}"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text="$MESSAGE"
